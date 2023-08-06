@@ -1,5 +1,4 @@
-import {Comment} from "./Comment.tsx";
-
+import { Comment } from './Comment.tsx';
 
 export const CommentList = () => {
   return (
