@@ -5,5 +5,5 @@ type Props = {
 };
 
 export const ItemContainer = ({ children }: Props) => {
-  return <div className="bg-white rounded-lg p-4 flex">{children}</div>;
+  return <div className="bg-white rounded-lg p-6 flex items-start">{children}</div>;
 };
