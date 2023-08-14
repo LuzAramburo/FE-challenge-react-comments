@@ -1,4 +1,4 @@
-import { useCommentContext } from '../../store/CommentContext.tsx';
+import { useCommentContext } from '../../contexts/CommentContext.tsx';
 
 interface Props {
   commentText: string;

@@ -1,6 +1,6 @@
 import IconDelete from '@assets/images/icons/icon-delete.svg';
 import IconEdit from '@assets/images/icons/icon-edit.svg';
-import { useCommentContext } from '../../../store/CommentContext.tsx';
+import { useCommentContext } from '../../../contexts/CommentContext.tsx';
 
 export const ActionsOwned = () => {
   const { setEditing } = useCommentContext();

@@ -1,21 +1,44 @@
 import './App.css';
 import { CommentList } from './components/comments/CommentList.tsx';
-import { useState } from 'react';
-import { OwnerContext } from './store/OwnerContext.tsx';
+import { useEffect, useState } from 'react';
+import { AuthContext } from './contexts/AuthContext.tsx';
+import { IComment } from './interfaces/comments.interfaces';
+import { CommentsListContext } from './contexts/CommentListContext.tsx';
+import { ICurrentUser } from './interfaces/user.interfaces';
+
+// TODO use reducer
+// const commentsList: IComment[] = data.comments;
 
 function App() {
-  const [owned, setOwned] = useState(false);
+  const [currentUser, setUser] = useState<null | ICurrentUser>(null);
+  const [comments, setComments] = useState([] as IComment[]);
+
+  const fetchJson = () => {
+    fetch('./data/data.json')
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        setComments(data.comments);
+        setUser(data.currentUser);
+      })
+      .catch((e: Error) => {
+        console.log(e.message);
+      });
+  };
+
+  useEffect(() => {
+    fetchJson();
+  }, []);
+
   return (
-    <OwnerContext.Provider value={{ owned, setOwned }}>
-      <div className="bg-blue-50 py-10 min-h-screen">
-        <div className="max-w-3xl mx-auto px-4">
-          <button onClick={() => setOwned(!owned)} className="border border-gray-400 py-2 px-4 mb-4">
-            Toggle Ownership: {`${owned}`}
-          </button>
-          <CommentList />
+    <AuthContext.Provider value={{ currentUser, setUser }}>
+      <CommentsListContext.Provider value={{ comments }}>
+        <div className="bg-blue-50 py-10 min-h-screen">
+          <div className="max-w-3xl mx-auto px-4">{comments.length > 0 && <CommentList comments={comments} />}</div>
         </div>
-      </div>
-    </OwnerContext.Provider>
+      </CommentsListContext.Provider>
+    </AuthContext.Provider>
   );
 }
 

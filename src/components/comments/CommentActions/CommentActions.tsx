@@ -1,5 +1,5 @@
 import { ActionsOwned } from './ActionsOwned.tsx';
-import { ActionsNotOwned } from './ActionsNotOwned.tsx';
+import { ActionsViewer } from './ActionsViewer.tsx';
 
 type Props = {
   owned: boolean;
@@ -7,5 +7,5 @@ type Props = {
 
 export const CommentActions = ({ owned }: Props) => {
   if (owned) return <ActionsOwned />;
-  return <ActionsNotOwned />;
+  return <ActionsViewer />;
 };

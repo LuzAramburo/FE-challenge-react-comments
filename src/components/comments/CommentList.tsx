@@ -1,9 +1,16 @@
-import { Comment } from './Comment.tsx';
+import { CommentItem } from './CommentItem.tsx';
+import { IComment } from '../../interfaces/comments.interfaces';
 
-export const CommentList = () => {
+type Props = {
+  comments: IComment[];
+};
+
+export const CommentList = ({ comments }: Props) => {
   return (
     <>
-      <Comment />
+      {comments.map((comment) => (
+        <CommentItem comment={comment} key={comment.id} />
+      ))}
     </>
   );
 };
