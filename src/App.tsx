@@ -2,16 +2,11 @@ import './App.css';
 import { CommentList } from './components/comments/CommentList.tsx';
 import { useEffect, useState } from 'react';
 import { AuthContext } from './contexts/AuthContext.tsx';
-import { IComment } from './interfaces/comments.interfaces';
-import { CommentsListContext } from './contexts/CommentListContext.tsx';
+import { CommentsProvider } from './contexts/CommentListContext.tsx';
 import { ICurrentUser } from './interfaces/user.interfaces';
-
-// TODO use reducer
-// const commentsList: IComment[] = data.comments;
 
 function App() {
   const [currentUser, setUser] = useState<null | ICurrentUser>(null);
-  const [comments, setComments] = useState([] as IComment[]);
 
   const fetchJson = () => {
     fetch('./data/data.json')
@@ -19,7 +14,6 @@ function App() {
         return response.json();
       })
       .then((data) => {
-        setComments(data.comments);
         setUser(data.currentUser);
       })
       .catch((e: Error) => {
@@ -33,11 +27,13 @@ function App() {
 
   return (
     <AuthContext.Provider value={{ currentUser, setUser }}>
-      <CommentsListContext.Provider value={{ comments }}>
+      <CommentsProvider>
         <div className="bg-blue-50 py-10 min-h-screen">
-          <div className="max-w-3xl mx-auto px-4">{comments.length > 0 && <CommentList comments={comments} />}</div>
+          <div className="max-w-3xl mx-auto px-4">
+            <CommentList />
+          </div>
         </div>
-      </CommentsListContext.Provider>
+      </CommentsProvider>
     </AuthContext.Provider>
   );
 }

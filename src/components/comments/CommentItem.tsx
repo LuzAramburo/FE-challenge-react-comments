@@ -7,6 +7,7 @@ import { CommentForm } from './CommentForm.tsx';
 import { CommentContext } from '../../contexts/CommentContext.tsx';
 import { IComment } from '../../interfaces/comments.interfaces';
 import { useOwnerContext } from '../../contexts/AuthContext.tsx';
+import { CommentRepliesContainer } from './CommentRepliesContainer.tsx';
 
 type Props = {
   comment: IComment;
@@ -27,13 +28,14 @@ export const CommentItem = ({ comment }: Props) => {
         <CommentVotes score={comment.score} />
         <div className="flex-grow">
           <div className="flex justify-between">
-            <CommentUser owned={owner} />
+            <CommentUser user={comment.user} owned={owner} />
             <CommentActions owned={owner} />
           </div>
           {!editing && <div className="mt-2 text-gray-500">{comment.content}</div>}
           {editing && <CommentForm commentText={comment.content} />}
         </div>
       </ItemContainer>
+      {comment.replies && <CommentRepliesContainer comments={comment.replies} />}
     </CommentContext.Provider>
   );
 };

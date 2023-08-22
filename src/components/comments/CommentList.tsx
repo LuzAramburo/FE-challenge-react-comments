@@ -1,16 +1,8 @@
 import { CommentItem } from './CommentItem.tsx';
-import { IComment } from '../../interfaces/comments.interfaces';
+import { useCommentListContext } from '../../contexts/CommentListContext.tsx';
 
-type Props = {
-  comments: IComment[];
-};
+export const CommentList = () => {
+  const comments = useCommentListContext();
 
-export const CommentList = ({ comments }: Props) => {
-  return (
-    <>
-      {comments.map((comment) => (
-        <CommentItem comment={comment} key={comment.id} />
-      ))}
-    </>
-  );
+  return <>{comments && comments.map((comment) => <CommentItem comment={comment} key={comment.id} />)}</>;
 };
