@@ -1,17 +1,24 @@
 import { createContext, useContext } from 'react';
+import { IComment } from '../interfaces/comments.interfaces';
 
 type CommentContext = {
-  owner: boolean;
-  setOwner: (value: boolean) => void;
+  comment: IComment;
+  isOwner: boolean;
+  setIsOwner: (value: boolean) => void;
   editing: boolean;
   setEditing: (value: boolean) => void;
+  replying: boolean;
+  setReplying: (value: boolean) => void;
 };
 
 export const CommentContext = createContext<CommentContext>({
-  owner: false,
-  setOwner: () => {},
+  comment: {} as IComment,
+  isOwner: false,
+  setIsOwner: () => {},
   editing: false,
   setEditing: () => {},
+  replying: false,
+  setReplying: () => {},
 });
 
 // eslint-disable-next-line react-refresh/only-export-components

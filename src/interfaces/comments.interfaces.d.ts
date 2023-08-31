@@ -1,9 +1,4 @@
-import { IImage } from './image.interfaces';
-
-export interface IUser {
-  image: IImage;
-  username: string;
-}
+import { IUser } from './user.interfaces.ts';
 
 export interface IComment {
   id: number;

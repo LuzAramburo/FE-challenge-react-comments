@@ -1,13 +1,13 @@
 import { createContext, useContext } from 'react';
-import { ICurrentUser } from '../interfaces/user.interfaces';
+import { IUser } from '../interfaces/user.interfaces.ts';
 
 type OwnerContext = {
-  currentUser: ICurrentUser | null;
-  setUser: (user: ICurrentUser) => void;
+  currentUser: IUser;
+  setUser: (user: IUser) => void;
 };
 
 export const AuthContext = createContext<OwnerContext>({
-  currentUser: null,
+  currentUser: {} as IUser,
   setUser: () => {},
 });
 

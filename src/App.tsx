@@ -3,10 +3,10 @@ import { CommentList } from './components/comments/CommentList.tsx';
 import { useEffect, useState } from 'react';
 import { AuthContext } from './contexts/AuthContext.tsx';
 import { CommentsProvider } from './contexts/CommentListContext.tsx';
-import { ICurrentUser } from './interfaces/user.interfaces';
+import { IUser } from './interfaces/user.interfaces.ts';
 
 function App() {
-  const [currentUser, setUser] = useState<null | ICurrentUser>(null);
+  const [currentUser, setUser] = useState<null | IUser>(null);
 
   const fetchJson = () => {
     fetch('./data/data.json')
@@ -24,6 +24,8 @@ function App() {
   useEffect(() => {
     fetchJson();
   }, []);
+
+  if (currentUser === null) return <div>Loading...</div>;
 
   return (
     <AuthContext.Provider value={{ currentUser, setUser }}>

@@ -1,6 +1,6 @@
 import { IImage } from './image.interfaces';
 
-export interface ICurrentUser {
+export interface IUser {
   image: IImage;
   username: string;
 }
