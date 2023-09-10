@@ -1,4 +1,4 @@
-import { IUser } from './user.interfaces.ts';
+import { IUser } from './user.interfaces.d.ts';
 
 export interface IComment {
   id: number;
@@ -9,7 +9,7 @@ export interface IComment {
   replies: IReply[];
 }
 
-export interface IReply extends IComment {
+export interface IReply extends Omit<IComment, 'replies'> {
   replyingTo: string;
 }
 

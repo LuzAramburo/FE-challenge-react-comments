@@ -1,8 +1,17 @@
+/* eslint react-refresh/only-export-components: 0 */
 import { createContext, Dispatch, ReactNode, useContext, useEffect, useReducer } from 'react';
-import { IComment } from '../interfaces/comments.interfaces';
+import { IComment, IReply } from '../interfaces/comments.interfaces';
+
+interface replyPayload extends IReply {
+  parentId: number;
+}
 
 type SetData = { type: 'setData'; payload: IComment[] };
-type CommentActions = SetData;
+type UpdateComment = { type: 'updateComment'; payload: IComment };
+type AddComment = { type: 'addComment'; payload: IComment };
+type AddReply = { type: 'addReply'; payload: replyPayload };
+
+type CommentActions = SetData | UpdateComment | AddComment | AddReply;
 
 export const CommentsListContext = createContext<IComment[] | null>(null);
 export const CommentsDispatchContext = createContext<Dispatch<CommentActions> | null>(null);
@@ -38,15 +47,36 @@ export const CommentsProvider = ({ children }: Props) => {
   );
 };
 
-function commentsReducer(commentsList: IComment[], action: CommentActions) {
+const randomId = () => Math.floor(Math.random() * 100) + 5;
+
+function commentsReducer(state: IComment[], action: CommentActions) {
   const { type, payload } = action;
+
   switch (type) {
     case 'setData':
       return payload;
+
+    case 'addComment':
+      return [...state, { ...payload, id: randomId() }];
+
+    case 'addReply':
+      return state.map((comment) => {
+        if (comment.id === payload.parentId) comment.replies.push({ ...payload, id: randomId() });
+        return comment;
+      });
+
+    case 'updateComment':
+      return state;
+
     default:
-      return commentsList;
+      return state;
   }
 }
 
-export const useCommentListContext = () => useContext(CommentsListContext);
-export const useCommentDispatchContext = () => useContext(CommentsDispatchContext);
+export function useCommentListContext() {
+  return useContext(CommentsListContext);
+}
+
+export function useCommentDispatchContext() {
+  return useContext(CommentsDispatchContext) as Dispatch<CommentActions>;
+}

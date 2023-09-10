@@ -3,7 +3,7 @@ import { CommentList } from './components/comments/CommentList.tsx';
 import { useEffect, useState } from 'react';
 import { AuthContext } from './contexts/AuthContext.tsx';
 import { CommentsProvider } from './contexts/CommentListContext.tsx';
-import { IUser } from './interfaces/user.interfaces.ts';
+import { IUser } from './interfaces/user.interfaces';
 
 function App() {
   const [currentUser, setUser] = useState<null | IUser>(null);

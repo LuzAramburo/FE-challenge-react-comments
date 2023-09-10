@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react';
-import { IUser } from '../interfaces/user.interfaces.ts';
+import { IUser } from '../interfaces/user.interfaces.d.ts';
 
 type OwnerContext = {
   currentUser: IUser;

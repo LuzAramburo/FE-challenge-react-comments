@@ -3,22 +3,23 @@ import { CommentUser } from './CommentUser.tsx';
 import { ItemContainer } from '../UI/ItemContainer.tsx';
 import { CommentActions } from './CommentActions/CommentActions.tsx';
 import { useEffect, useState } from 'react';
-import { CommentReply } from './CommentReply.tsx';
+import { CommentReplyForm } from './CommentReplyForm.tsx';
 import { CommentContext } from '../../contexts/CommentContext.tsx';
-import { IComment } from '../../interfaces/comments.interfaces';
+import { IComment, IReply } from '../../interfaces/comments.interfaces';
 import { useOwnerContext } from '../../contexts/AuthContext.tsx';
 import { CommentRepliesContainer } from './CommentRepliesContainer.tsx';
-import { CommentEdit } from './CommentEdit.tsx';
+import { CommentEditForm } from './CommentEditForm.tsx';
 
-type Props = {
-  comment: IComment;
+type IProps = {
+  comment: IComment | IReply;
+  parentId?: number;
 };
 
-export const CommentItem = ({ comment }: Props) => {
+export const CommentItem = ({ comment }: IProps) => {
   const { currentUser } = useOwnerContext();
   const [isOwner, setIsOwner] = useState(false);
-  const [editing, setEditing] = useState(false);
-  const [replying, setReplying] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [isReplying, setIsReplying] = useState(false);
 
   useEffect(() => {
     if (comment.user.username === currentUser?.username) setIsOwner(true);
@@ -26,7 +27,15 @@ export const CommentItem = ({ comment }: Props) => {
 
   return (
     <CommentContext.Provider
-      value={{ comment, editing, setEditing, isOwner: isOwner, setIsOwner, replying, setReplying }}
+      value={{
+        comment,
+        isEditing,
+        setIsEditing,
+        isOwner,
+        setIsOwner,
+        isReplying,
+        setIsReplying,
+      }}
     >
       <ItemContainer>
         <CommentVotes score={comment.score} />
@@ -35,12 +44,12 @@ export const CommentItem = ({ comment }: Props) => {
             <CommentUser />
             <CommentActions isOwner={isOwner} />
           </div>
-          {!editing && <div className="mt-2 text-gray-500">{comment.content}</div>}
-          {editing && <CommentEdit />}
+          {!isEditing && <div className="mt-2 text-gray-500">{comment.content}</div>}
+          {isEditing && <CommentEditForm />}
         </div>
       </ItemContainer>
-      {replying && <CommentReply />}
-      {comment.replies && <CommentRepliesContainer comments={comment.replies} />}
+      {isReplying && <CommentReplyForm parentId={comment.id} replyingTo={comment.user.username} />}
+      {'replies' in comment && comment.replies.length > 0 && <CommentRepliesContainer comments={comment.replies} />}
     </CommentContext.Provider>
   );
 };
