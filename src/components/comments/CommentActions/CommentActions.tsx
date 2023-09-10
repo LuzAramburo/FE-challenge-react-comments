@@ -3,10 +3,9 @@ import { ActionsViewer } from './ActionsViewer.tsx';
 
 type Props = {
   isOwner: boolean;
-  parentId?: number;
 };
 
-export const CommentActions = ({ isOwner, parentId }: Props) => {
-  if (isOwner) return <ActionsOwned parentId={parentId} />;
+export const CommentActions = ({ isOwner }: Props) => {
+  if (isOwner) return <ActionsOwned />;
   return <ActionsViewer />;
 };

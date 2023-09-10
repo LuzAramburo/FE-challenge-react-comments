@@ -49,6 +49,7 @@ export const CommentReplyForm = ({ parentId, replyingTo }: IProps) => {
         },
       });
     }
+    setReplyContent('');
   };
 
   return (
@@ -60,6 +61,7 @@ export const CommentReplyForm = ({ parentId, replyingTo }: IProps) => {
           autoFocus
           className="w-full border border-gray-400 rounded p-2 flex-grow"
           rows={4}
+          value={replyContent}
           onChange={(e) => setReplyContent(e.target.value)}
           placeholder={'Add a comment...'}
           defaultValue={replyingTo && `@${replyingTo} `}

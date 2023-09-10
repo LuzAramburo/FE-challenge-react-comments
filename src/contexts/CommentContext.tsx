@@ -11,6 +11,8 @@ type CommentContext = {
   setIsEditing: (value: boolean) => void;
   isReplying: boolean;
   setIsReplying: (value: boolean) => void;
+  isCanceling: boolean;
+  setIsCanceling: (value: boolean) => void;
 };
 
 export const CommentContext = createContext<CommentContext>({
@@ -22,6 +24,8 @@ export const CommentContext = createContext<CommentContext>({
   setIsEditing: () => {},
   isReplying: false,
   setIsReplying: () => {},
+  isCanceling: false,
+  setIsCanceling: () => {},
 });
 
 export function useCommentContext() {

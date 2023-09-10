@@ -1,23 +1,11 @@
 import IconDelete from '@assets/images/icons/icon-delete.svg';
 import IconEdit from '@assets/images/icons/icon-edit.svg';
 import { useCommentContext } from '../../../contexts/CommentContext.tsx';
-import { useCommentDispatchContext } from '../../../contexts/CommentListContext.tsx';
 
-type Props = {
-  parentId?: number;
-};
-
-export const ActionsOwned = ({ parentId }: Props) => {
-  const { comment, setIsEditing } = useCommentContext();
-  const dispatch = useCommentDispatchContext();
+export const ActionsOwned = () => {
+  const { setIsEditing, setIsCanceling } = useCommentContext();
   const deleteHandler = () => {
-    dispatch({
-      type: 'deleteComment',
-      payload: {
-        parentId: parentId,
-        commentToDeleteId: comment.id,
-      },
-    });
+    setIsCanceling(true);
   };
   return (
     <div className="flex items-center gap-4">
