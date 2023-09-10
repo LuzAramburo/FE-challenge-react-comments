@@ -2,16 +2,22 @@
 import { createContext, Dispatch, ReactNode, useContext, useEffect, useReducer } from 'react';
 import { IComment, IReply } from '../interfaces/comments.interfaces';
 
-interface replyPayload extends IReply {
+interface ReplyPayload extends IReply {
   parentId: number;
+}
+
+interface DeletePayload {
+  parentId?: number;
+  commentToDeleteId: number;
 }
 
 type SetData = { type: 'setData'; payload: IComment[] };
 type UpdateComment = { type: 'updateComment'; payload: IComment };
 type AddComment = { type: 'addComment'; payload: IComment };
-type AddReply = { type: 'addReply'; payload: replyPayload };
+type AddReply = { type: 'addReply'; payload: ReplyPayload };
+type DeleteComment = { type: 'deleteComment'; payload: DeletePayload };
 
-type CommentActions = SetData | UpdateComment | AddComment | AddReply;
+type CommentActions = SetData | UpdateComment | AddComment | AddReply | DeleteComment;
 
 export const CommentsListContext = createContext<IComment[] | null>(null);
 export const CommentsDispatchContext = createContext<Dispatch<CommentActions> | null>(null);
@@ -67,6 +73,16 @@ function commentsReducer(state: IComment[], action: CommentActions) {
 
     case 'updateComment':
       return state;
+
+    case 'deleteComment':
+      if (payload.parentId) {
+        const index = state.findIndex((comment) => comment.id === payload.parentId);
+        const newState = [...state];
+        newState[index].replies = newState[index].replies.filter((comment) => comment.id !== payload.commentToDeleteId);
+        return newState;
+      } else {
+        return state.filter((comment) => comment.id !== payload.commentToDeleteId);
+      }
 
     default:
       return state;

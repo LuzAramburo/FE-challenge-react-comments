@@ -15,7 +15,7 @@ type IProps = {
   parentId?: number;
 };
 
-export const CommentItem = ({ comment }: IProps) => {
+export const CommentItem = ({ comment, parentId }: IProps) => {
   const { currentUser } = useOwnerContext();
   const [isOwner, setIsOwner] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -45,14 +45,16 @@ export const CommentItem = ({ comment }: IProps) => {
         <div className="flex-grow">
           <div className="flex justify-between">
             <CommentUser />
-            <CommentActions isOwner={isOwner} />
+            <CommentActions parentId={parentId} isOwner={isOwner} />
           </div>
           {!isEditing && <div className="mt-2 text-gray-500">{comment.content}</div>}
           {isEditing && <CommentEditForm />}
         </div>
       </ItemContainer>
       {isReplying && <CommentReplyForm parentId={comment.id} replyingTo={comment.user.username} />}
-      {'replies' in comment && comment.replies.length > 0 && <CommentRepliesContainer comments={comment.replies} />}
+      {'replies' in comment && comment.replies.length > 0 && (
+        <CommentRepliesContainer parentId={comment.id} comments={comment.replies} />
+      )}
     </CommentContext.Provider>
   );
 };
