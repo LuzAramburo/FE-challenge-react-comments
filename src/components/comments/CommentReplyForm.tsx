@@ -11,7 +11,7 @@ type IProps = {
 };
 
 export const CommentReplyForm = ({ parentId, replyingTo }: IProps) => {
-  const { setIsReplying } = useCommentContext();
+  const { setIsReplying, textareaRef } = useCommentContext();
   const { currentUser } = useOwnerContext();
   const dispatch = useCommentDispatchContext();
 
@@ -56,6 +56,8 @@ export const CommentReplyForm = ({ parentId, replyingTo }: IProps) => {
       <form className="flex items-start gap-4 mt-2 w-full" onSubmit={replyHandler}>
         <CommentUserAvatar user={currentUser} />
         <textarea
+          ref={textareaRef}
+          autoFocus
           className="w-full border border-gray-400 rounded p-2 flex-grow"
           rows={4}
           onChange={(e) => setReplyContent(e.target.value)}

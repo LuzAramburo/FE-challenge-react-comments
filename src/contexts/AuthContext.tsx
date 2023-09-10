@@ -1,5 +1,6 @@
+/* eslint react-refresh/only-export-components: 0 */
 import { createContext, useContext } from 'react';
-import { IUser } from '../interfaces/user.interfaces.d.ts';
+import { IUser } from '../interfaces/user.interfaces';
 
 type OwnerContext = {
   currentUser: IUser;
@@ -11,5 +12,6 @@ export const AuthContext = createContext<OwnerContext>({
   setUser: () => {},
 });
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const useOwnerContext = () => useContext(AuthContext);
+export function useOwnerContext() {
+  return useContext(AuthContext);
+}

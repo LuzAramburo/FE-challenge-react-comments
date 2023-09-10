@@ -2,7 +2,7 @@ import { CommentVotes } from './CommentVotes.tsx';
 import { CommentUser } from './CommentUser.tsx';
 import { ItemContainer } from '../UI/ItemContainer.tsx';
 import { CommentActions } from './CommentActions/CommentActions.tsx';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { CommentReplyForm } from './CommentReplyForm.tsx';
 import { CommentContext } from '../../contexts/CommentContext.tsx';
 import { IComment, IReply } from '../../interfaces/comments.interfaces';
@@ -21,6 +21,8 @@ export const CommentItem = ({ comment }: IProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [isReplying, setIsReplying] = useState(false);
 
+  const textareaRef = useRef(null);
+
   useEffect(() => {
     if (comment.user.username === currentUser?.username) setIsOwner(true);
   }, [currentUser, comment]);
@@ -29,6 +31,7 @@ export const CommentItem = ({ comment }: IProps) => {
     <CommentContext.Provider
       value={{
         comment,
+        textareaRef,
         isEditing,
         setIsEditing,
         isOwner,
