@@ -11,8 +11,12 @@ interface DeletePayload {
   commentToDeleteId: number;
 }
 
+interface UpdatePayload extends Partial<IComment> {
+  parentId?: number;
+}
+
 type SetData = { type: 'setData'; payload: IComment[] };
-type UpdateComment = { type: 'updateComment'; payload: IComment };
+type UpdateComment = { type: 'updateComment'; payload: UpdatePayload };
 type AddComment = { type: 'addComment'; payload: IComment };
 type AddReply = { type: 'addReply'; payload: ReplyPayload };
 type DeleteComment = { type: 'deleteComment'; payload: DeletePayload };
@@ -72,7 +76,22 @@ function commentsReducer(state: IComment[], action: CommentActions) {
       });
 
     case 'updateComment':
-      return state;
+      if (payload.parentId) {
+        const index = state.findIndex((comment) => comment.id === payload.parentId);
+        const newState = [...state];
+        const { id: commentId, ...updatedComment } = payload;
+        newState[index].replies = newState[index].replies.map((comment) => {
+          if (comment.id === commentId) return { ...comment, ...updatedComment };
+          return comment;
+        });
+        return newState;
+      } else {
+        const { id: commentId, ...updatedComment } = payload;
+        return state.map((comment) => {
+          if (comment.id === commentId) return { ...comment, ...updatedComment };
+          return comment;
+        });
+      }
 
     case 'deleteComment':
       if (payload.parentId) {

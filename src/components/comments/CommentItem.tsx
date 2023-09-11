@@ -70,7 +70,7 @@ export const CommentItem = ({ comment, parentId }: IProps) => {
             <CommentActions isOwner={isOwner} />
           </div>
           {!isEditing && <div className="mt-2 text-gray-500">{comment.content}</div>}
-          {isEditing && <CommentEditForm />}
+          {isEditing && <CommentEditForm parentId={parentId} />}
         </div>
       </ItemContainer>
       {isReplying && <CommentReplyForm parentId={comment.id} replyingTo={comment.user.username} />}
