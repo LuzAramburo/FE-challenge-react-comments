@@ -10,7 +10,7 @@ export const CommentUser = () => {
         {comment.user.username}
         {isOwner && <div className="bg-primary text-white px-2 rounded-sm text-xs font-medium">you</div>}
       </span>
-      <span className=" text-gray-500">1 month ago</span>
+      <span className=" text-gray-500">{`${comment.createdAt}`}</span>
     </div>
   );
 };

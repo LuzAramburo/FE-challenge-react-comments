@@ -63,7 +63,7 @@ export const CommentItem = ({ comment, parentId }: IProps) => {
       }}
     >
       <ItemContainer>
-        <CommentVotes score={comment.score} />
+        <CommentVotes parentId={parentId} />
         <div className="flex-grow">
           <div className="flex justify-between">
             <CommentUser />
