@@ -54,7 +54,7 @@ export const CommentReplyForm = ({ parentId, replyingTo }: IProps) => {
 
   return (
     <ItemContainer className="mt-1.5">
-      <form className="flex items-start gap-4 mt-2 w-full" onSubmit={replyHandler}>
+      <form className="flex items-start gap-4 mt-2 w-full flex-wrap md:flex-nowrap" onSubmit={replyHandler}>
         <CommentUserAvatar user={currentUser} />
         <textarea
           ref={textareaRef}
@@ -66,11 +66,11 @@ export const CommentReplyForm = ({ parentId, replyingTo }: IProps) => {
           placeholder={'Add a comment...'}
           defaultValue={replyingTo && `@${replyingTo} `}
         />
-        <div className="flex flex-col justify-center items-center flex-grow">
+        <div className="flex md:flex-col justify-end md:justify-center items-center flex-grow order-3">
           <button
             onClick={() => replyHandler}
             type="submit"
-            className="bg-primary text-white uppercase rounded py-2 px-6 hover:opacity-80"
+            className="bg-primary text-white uppercase rounded py-2 px-6 hover:opacity-80 order-2 md:order-first"
           >
             Reply
           </button>
@@ -78,7 +78,7 @@ export const CommentReplyForm = ({ parentId, replyingTo }: IProps) => {
             <button
               onClick={() => setIsReplying(false)}
               type="button"
-              className="text-primary uppercase rounded py-2 px-6 hover:opacity-80"
+              className="text-primary uppercase rounded py-2 px-6 hover:opacity-80 order-1"
             >
               Cancel
             </button>

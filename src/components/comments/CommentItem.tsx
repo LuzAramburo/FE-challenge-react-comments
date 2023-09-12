@@ -62,15 +62,20 @@ export const CommentItem = ({ comment, parentId }: IProps) => {
         setIsCanceling,
       }}
     >
-      <ItemContainer>
+      <ItemContainer className="md:flex-row flex-wrap md:flex-nowrap justify-between items-center">
         <CommentVotes parentId={parentId} />
-        <div className="flex-grow">
+        <div className="flex-grow mb-4 md:mb-0">
           <div className="flex justify-between">
             <CommentUser />
-            <CommentActions isOwner={isOwner} />
+            <div className="hidden md:flex">
+              <CommentActions isOwner={isOwner} />
+            </div>
           </div>
           {!isEditing && <div className="mt-2 text-gray-500">{comment.content}</div>}
           {isEditing && <CommentEditForm parentId={parentId} />}
+        </div>
+        <div className="md:hidden order-3">
+          <CommentActions isOwner={isOwner} />
         </div>
       </ItemContainer>
       {isReplying && <CommentReplyForm parentId={comment.id} replyingTo={comment.user.username} />}

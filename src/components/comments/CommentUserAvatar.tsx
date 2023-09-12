@@ -6,7 +6,7 @@ interface IProps {
 
 export const CommentUserAvatar = ({ user }: IProps) => {
   return (
-    <div className="bg-gray-400 rounded-full w-8 h-8 flex-shrink-0">
+    <div className="bg-gray-400 rounded-full w-8 h-8 flex-shrink-0 order-2 md:order-first">
       <img src={user.image.webp} alt={`Profile image of ${user.username}`} />
     </div>
   );
